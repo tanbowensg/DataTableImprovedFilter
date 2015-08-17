@@ -7,6 +7,7 @@
 
 使用说明：
 1、仅支持Datatables 1.10以上版本。
+2、需要加载jQuery和Bootstrap。
 
 使用范例：
 1、improvedFilter(table) table是datatables对象。具体内容参见源码。
