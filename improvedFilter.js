@@ -82,7 +82,6 @@ var improvedFilter = function(table) {
         '</div class="controls">' +
         '<button class="improved improvedTextSearch btn btn-sm btn-primary">应用</button>' +
         '<button class="improved improvedTextClear btn btn-sm btn-warning">清除</button>' +
-        '<button class="improved improvedCancel btn btn-sm">关闭</button>' +
         '</div>' +
         '</form>';
 
@@ -93,13 +92,12 @@ var improvedFilter = function(table) {
 
         '<div class="controls">' +
         '<input type="text" class="improvedMax" placeholder="最大值,100">' +
-        '</div>'
-    '</div class="controls">' +
-    '<button class="improved improvedNumSearch btn btn-sm btn-primary">应用</button>' +
-    '<button class="improved improvedNumClear btn btn-sm btn-warning">清除</button>' +
-    '<button class="improved improvedCancel btn btn-sm">关闭</button>' +
-    '</div>' +
-    '</form>';
+        '</div>'+
+        '<div class="controls">' +
+        '<button class="improved improvedNumSearch btn btn-sm btn-primary">应用</button>' +
+        '<button class="improved improvedNumClear btn btn-sm btn-warning">清除</button>' +
+        '</div>' +
+        '</form>';
 
     var textOption = {
         animatation: false,
@@ -131,11 +129,34 @@ var improvedFilter = function(table) {
         //筛选文字
         var filterDiv = $('<span class="filterIcon"><img src="filter.png"></span>');
 
+        //将格式去除后，判断其是不是数字
+        function isNumber(num) {
+            //以免传入纯数字或者undefined导致下面的replace出错
+            if (num===undefined) {
+                return false;
+            }
+
+            if (!isNaN(num)) {
+                return true;
+            }
+
+            var except = ['%', '￥'];
+            var result;
+            for (var j = 0; j < except.length; j++) {
+                result = num.replace(except[j], '');
+                if (!isNaN(result)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
         //row(1).data()[i]代表第一行第i列的值，如果这个值是数值，就显示数值筛选，否则就显示文字筛选
-        if (isNaN(column.row(1).data()[i])) {
-            filterDiv.popover(textOption);
-        } else {
+        // if (isNaN(tempArray[i])) {
+        if (isNumber(column.data()[1])) {
             filterDiv.popover(numOption);
+        } else {
+            filterDiv.popover(textOption);
         }
 
         filterDiv.appendTo($(column.header()))
@@ -152,11 +173,6 @@ var improvedFilter = function(table) {
                     event.stopPropagation();
                 })
 
-                //给关闭按钮绑定事件
-                $(this).next().find(".improvedCancel").on("click", function(event) {
-                    event.preventDefault();
-                    $(that).popover('hide'); //关闭弹出框
-                });
 
                 //给文字筛选的提交按钮绑定事件
                 $(this).next().find(".improvedTextSearch").on("click", function(event) {
@@ -179,7 +195,7 @@ var improvedFilter = function(table) {
                                 table.column(i).search(key).draw();
                                 break;
                             case 'notequal':
-                                key = '(?!.*' + key + ')^.*$';
+                                key = '^(?!'+ key + '$).+$';
                                 table.column(i).search(key, true, false).draw();
                                 break;
                             case 'notinclude':
@@ -189,6 +205,7 @@ var improvedFilter = function(table) {
                         }
                     }
                     $(that).children().prop('src', 'filter2.png');
+                    $(that).popover('hide'); //关闭弹出框
                 });
 
                 //给文字筛选的清除按钮绑定事件，其实就是用空关键词重新搜索一下啦。
@@ -197,6 +214,7 @@ var improvedFilter = function(table) {
                     table.column(i).search('').draw();
                     var key = $(that).next().find('.improvedKeyword').val('');
                     $(that).children().prop('src', 'filter.png');
+                    $(that).popover('hide'); //关闭弹出框
                 });
 
 
@@ -206,6 +224,7 @@ var improvedFilter = function(table) {
                     event.preventDefault();
                     table.column(i).search('').draw();
                     $(that).children().prop('src', 'filter2.png');
+                    $(that).popover('hide'); //关闭弹出框
                 });
 
                 //给数值筛选的清除按钮绑定事件，其实就是用空关键词重新搜索一下啦。
@@ -215,6 +234,7 @@ var improvedFilter = function(table) {
                     var key = $(that).next().find('.improvedMax').val('');
                     table.column(i).search('').draw();
                     $(that).children().prop('src', 'filter.png');
+                    $(that).popover('hide'); //关闭弹出框
                 });
             });
 
