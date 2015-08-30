@@ -28,6 +28,6 @@
     margin:0 10px 8px 0px;
 }
 /*取消chrome中自带的outline样式*/
-th{
+th.sorting{
     outline: none;
 }
