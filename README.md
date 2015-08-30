@@ -15,7 +15,7 @@
 
 <h4>使用范例：</h4>
 <p>
-Datatable.('tableID')
+Datatable('tableID')
 improvedFilter('tableID') 。具体内容参见源码。</br>
 </p>
 
