@@ -15,7 +15,8 @@
 
 <h4>使用范例：</h4>
 <p>
-1、improvedFilter(table) table是datatables对象。具体内容参见源码。</br>
+Datatable.('tableID')
+improvedFilter('tableID') 。具体内容参见源码。</br>
 </p>
 
 <h4>2015.8.30 重大更新V1.1</h4>
