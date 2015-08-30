@@ -15,8 +15,8 @@
 
 <h4>使用范例：</h4>
 <p>
-$('tableID').DataTable()
-improvedFilter('tableID') 。具体内容参见源码。</br>
+$('tableID').DataTable()</br>
+improvedFilter('tableID') 。具体内容参见源码。
 </p>
 
 <h4>2015.8.30 重大更新V1.1</h4>
