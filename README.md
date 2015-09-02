@@ -11,6 +11,7 @@
 <p>
 1、仅支持Datatables 1.10以上版本。</br>
 2、需要加载jQuery和Bootstrap。</br>
+3、datatable中的searching参数必须为true，否则无效。
 </p>
 
 <h4>使用范例：</h4>
