@@ -1,77 +1,10 @@
-/**
- * [improvedFilter 给Datatables添加一个过滤器功能]
- * Author - TanBowen
- * @param  {[object]} tableID [tableID]
- */
-
-var dataSet = [
-    ['Trident', 'Internet Explorer 4.0', 'Win 95+', '4', 'X'],
-    ['Trident', 'Internet Explorer 5.0', 'Win 95+', '5', 'C'],
-    ['Trident', 'Internet Explorer 5.5', 'Win 95+', '5.5', 'A'],
-    ['Trident', 'Internet Explorer 6', 'Win 98+', '6', 'A'],
-    ['Trident', 'Internet Explorer 7', 'Win XP SP2+', '7', 'A'],
-    ['Trident', 'AOL browser (AOL desktop)', 'Win XP', '6', 'A'],
-    ['Gecko', 'Firefox 1.0', 'Win 98+ / OSX.2+', '1.7', 'A'],
-    ['Gecko', 'Firefox 1.5', 'Win 98+ / OSX.2+', '1.8', 'A'],
-    ['Gecko', 'Firefox 2.0', 'Win 98+ / OSX.2+', '1.8', 'A'],
-    ['Gecko', 'Firefox 3.0', 'Win 2k+ / OSX.3+', '1.9', 'A'],
-    ['Gecko', 'Camino 1.0', 'OSX.2+', '1.8', 'A'],
-    ['Gecko', 'Camino 1.5', 'OSX.3+', '1.8', 'A'],
-    ['Gecko', 'Netscape 7.2', 'Win 95+ / Mac OS 8.6-9.2', '1.7', 'A'],
-    ['Gecko', 'Netscape Browser 8', 'Win 98SE+', '1.7', 'A'],
-    ['Gecko', 'Netscape Navigator 9', 'Win 98+ / OSX.2+', '1.8', 'A'],
-    ['Gecko', 'Mozilla 1.0', 'Win 95+ / OSX.1+', 1, 'A'],
-    ['Gecko', 'Mozilla 1.1', 'Win 95+ / OSX.1+', 1.1, 'A'],
-    ['Gecko', 'Mozilla 1.2', 'Win 95+ / OSX.1+', 1.2, 'A'],
-    ['Gecko', 'Mozilla 1.3', 'Win 95+ / OSX.1+', 1.3, 'A'],
-    ['Gecko', 'Mozilla 1.4', 'Win 95+ / OSX.1+', 1.4, 'A'],
-    ['Gecko', 'Mozilla 1.5', 'Win 95+ / OSX.1+', 1.5, 'A'],
-    ['Gecko', 'Mozilla 1.6', 'Win 95+ / OSX.1+', 1.6, 'A'],
-    ['Gecko', 'Mozilla 1.7', 'Win 98+ / OSX.1+', 1.7, 'A'],
-    ['Gecko', 'Mozilla 1.8', 'Win 98+ / OSX.1+', 1.8, 'A'],
-    ['Gecko', 'Seamonkey 1.1', 'Win 98+ / OSX.2+', '1.8', 'A'],
-    ['Gecko', 'Epiphany 2.20', 'Gnome', '1.8', 'A'],
-    ['Webkit', 'Safari 1.2', 'OSX.3', '125.5', 'A'],
-    ['Webkit', 'Safari 1.3', 'OSX.3', '312.8', 'A'],
-    ['Webkit', 'Safari 2.0', 'OSX.4+', '419.3', 'A'],
-    ['Webkit', 'Safari 3.0', 'OSX.4+', '522.1', 'A'],
-    ['Webkit', 'OmniWeb 5.5', 'OSX.4+', '420', 'A'],
-    ['Webkit', 'iPod Touch / iPhone', 'iPod', '420.1', 'A'],
-    ['Webkit', 'S60', 'S60', '413', 'A'],
-    ['Presto', 'Opera 7.0', 'Win 95+ / OSX.1+', '-', 'A'],
-    ['Presto', 'Opera 7.5', 'Win 95+ / OSX.2+', '-', 'A'],
-    ['Presto', 'Opera 8.0', 'Win 95+ / OSX.2+', '-', 'A'],
-    ['Presto', 'Opera 8.5', 'Win 95+ / OSX.2+', '-', 'A'],
-    ['Presto', 'Opera 9.0', 'Win 95+ / OSX.3+', '-', 'A'],
-    ['Presto', 'Opera 9.2', 'Win 88+ / OSX.3+', '-', 'A'],
-    ['Presto', 'Opera 9.5', 'Win 88+ / OSX.3+', '-', 'A'],
-    ['Presto', 'Opera for Wii', 'Wii', '-', 'A'],
-    ['Presto', 'Nokia N800', 'N800', '-', 'A'],
-    ['Presto', 'Nintendo DS browser', 'Nintendo DS', '8.5', 'C/A<sup>1</sup>'],
-    ['KHTML', 'Konqureror 3.1', 'KDE 3.1', '3.1', 'C'],
-    ['KHTML', 'Konqureror 3.3', 'KDE 3.3', '3.3', 'A'],
-    ['KHTML', 'Konqureror 3.5', 'KDE 3.5', '3.5', 'A'],
-    ['Tasman', 'Internet Explorer 4.5', 'Mac OS 8-9', '-', 'X'],
-    ['Tasman', 'Internet Explorer 5.1', 'Mac OS 7.6-9', '1', 'C'],
-    ['Tasman', 'Internet Explorer 5.2', 'Mac OS 8-X', '1', 'C'],
-    ['Misc', 'NetFront 3.1', 'Embedded devices', '-', 'C'],
-    ['Misc', 'NetFront 3.4', 'Embedded devices', '-', 'A'],
-    ['Misc', 'Dillo 0.8', 'Embedded devices', '-', 'X'],
-    ['Misc', 'Links', 'Text only', '-', 'X'],
-    ['Misc', 'Lynx', 'Text only', '-', 'X'],
-    ['Misc', 'IE Mobile', 'Windows Mobile 6', '-', 'C'],
-    ['Misc', 'PSP browser', 'PSP', '-', 'C'],
-    ['Other browsers', 'All others', '-', '-', 'U']
-];
 
 /**
  * [improvedFilter 给Datatables添加一个过滤器功能]
  * Author - TanBowen
  * @param  {[object]} table [Datatable对象，必须要是1.10以上的datatables]
  */
-var improvedFilter = function(tableId) {
-    $.fn.dataTable.ext.search = [];
-    var table = $("#" + tableId).DataTable(); //
+var improvedFilter = function(table) {
     // var tempArray;
     var filterNumList = [];
     var tempKeywordList = {};
@@ -80,8 +13,8 @@ var improvedFilter = function(tableId) {
     //这个是弹出提示的内容
     var textHtml = '<form class="form-horizontal">' +
         '<div class="controls">' +
-        '<select class=" improvedJudge">' +
-        '<option value="equal">等于</option>' +
+        '<select class=" improved-judge">' +
+        '<option value="equal" selected="selected">等于</option>' +
         '<option value="include">包括</option>' +
         '<option value="notequal">不等于</option>' +
         '<option value="notinclude">不包括</option>' +
@@ -89,30 +22,30 @@ var improvedFilter = function(tableId) {
         '</div>' +
 
         '<div class="controls">' +
-        '<input type="text" class="improvedKeyword" placeholder="关键词">' +
+        '<input type="text" class="improved-keyword">' +
         '</div>' +
         '</div class="controls">' +
-        '<button class="improved improvedTextSearch btn btn-sm btn-primary">应用</button>' +
-        '<button class="improved improvedTextClear btn btn-sm btn-warning">清除</button>' +
+        '<button class="improved improved-text-search btn btn-sm btn-primary">应用</button>' +
+        '<button class="improved improved-text-clear btn btn-sm btn-warning">清除</button>' +
         '</div>' +
         '</form>';
 
     var numHtml = '<form class="form-horizontal">' +
         '<div class="controls">' +
-        '<input type="text" class="improvedMin" placeholder="最小值,1">' +
+        '<input type="text" class="improved-min" placeholder="最小值">' +
         '</div>' +
 
         '<div class="controls">' +
-        '<input type="text" class="improvedMax" placeholder="最大值,100">' +
+        '<input type="text" class="improved-max" placeholder="最大值">' +
         '</div>' +
         '<div class="controls">' +
-        '<button class="improved improvedNumSearch btn btn-sm btn-primary">应用</button>' +
-        '<button class="improved improvedNumClear btn btn-sm btn-warning">清除</button>' +
+        '<button class="improved improved-num-search btn btn-sm btn-primary">应用</button>' +
+        '<button class="improved improved-num-clear btn btn-sm btn-warning">清除</button>' +
         '</div>' +
         '</form>';
 
     var textOption = {
-        animatation: true,
+        animation: false,
         html: true,
         placement: 'bottom',
         tigger: 'click',
@@ -121,7 +54,7 @@ var improvedFilter = function(tableId) {
     }
 
     var numOption = {
-        animatation: false,
+        animation: false,
         html: true,
         placement: 'bottom',
         tigger: 'click',
@@ -148,9 +81,11 @@ var improvedFilter = function(tableId) {
         if (!isNaN(num)) {
             return num;
         }
-        var except = ["￥", "%", ','];
+        // 一个列表，自动过滤列表里的符号，以免把数据当成文本
+        var except = ["￥", "%", ',','¥'];
         for (var j = 0; j < except.length; j++) {
-            num = num.replace(except[j], '');
+            var reg = new RegExp(except[j],"g");
+            num = num.replace(reg, '');
         }
         return num;
     }
@@ -159,11 +94,6 @@ var improvedFilter = function(tableId) {
     table.columns().indexes().flatten().each(function(i) {
 
         var column = table.column(i);
-
-        // 判断表格的标题是不是复选框，如果是就不添加过滤器了
-        // if ($(column.header()).children()[0].innerHTML.indexOf('checkbox') !== -1) {
-        //     return;
-        // }
 
         $(column.header()).on("mouseover", function() {
             $(this).find(".unfiltered").css("visibility", "visible");
@@ -176,23 +106,8 @@ var improvedFilter = function(tableId) {
         //筛选文字
         var filterDiv = $('<span id="filterIcon' + i + '" class="filterIcon unfiltered"><img src="filter.png"></span>');
 
-
-        // function transformToArray (obj){
-        //     var array=[];
-        //     for (var item in obj){
-        //         array.push(obj[item]);
-        //     }
-        //     return array;
-        // }
-
-        // //因为如果用ajax对象生成datatable的花，row(1).data()是一个对象，data()[i]是undefiened,而不是一个数组，为了循环的方便，还是把它弄成数组
-        // // if (column.row(1).data()[i]===undefined){
-        // //     tempArray=transformToArray(column.row(1).data());
-        // // }
-
-        //row(1).data()[i]代表第一行第i列的值，如果这个值是数值，就显示数值筛选，否则就显示文字筛选
-        // if (isNaN(tempArray[i])) {
-        if (isNumber(column.data()[1])) {
+        //column.data()[0])代表第一行第i列的值，如果这个值是数值，就显示数值筛选，否则就显示文字筛选
+        if (isNumber(column.data()[0])) {
             filterDiv.popover(numOption);
         } else {
             filterDiv.popover(textOption);
@@ -202,25 +117,35 @@ var improvedFilter = function(tableId) {
             .click(function(event) {
                 event.preventDefault();
                 event.stopPropagation();
+
                 var that = this;
 
+                if($('.popover')[0]===undefined){
+                    return false
+                }
+
+                //阻止事件冒泡
+                $(this).next().click(function(event) {
+                        event.stopPropagation();
+                })
+
                 // 恢复缓存的关键词
-                if (tempKeywordList[i] !== undefined) {
-                    $('.improvedKeyword').val(tempKeywordList[i].key);
-                    $('.improvedJudge').val(tempKeywordList[i].judge);
+                if (tempKeywordList[i] !== undefined && tempKeywordList[i].key !== undefined) {
+                    $('.improved-keyword').val(tempKeywordList[i].key);
+                    $('.improved-judge').val(tempKeywordList[i].judge);
                 } else if (tempKeywordList[i] !== undefined) {
-                    $('.improvedMin').val(isNaN(tempKeywordList[i].min) ? '' : tempKeywordList[i].min);
-                    $('.improvedMax').val(isNaN(tempKeywordList[i].max) ? '' : tempKeywordList[i].max);
+                    $('.improved-min').val(isNaN(tempKeywordList[i].min) ? '' : tempKeywordList[i].min);
+                    $('.improved-max').val(isNaN(tempKeywordList[i].max) ? '' : tempKeywordList[i].max);
                 }
 
                 //给文字筛选的提交按钮绑定事件
-                $(this).next().find(".improvedTextSearch").on("click", function(event) {
+                $(this).next().find(".improved-text-search").on("click", function(event) {
                     event.preventDefault();
                     event.stopPropagation();
 
                     //获取搜索词和逻辑关系
-                    var key = $(that).next().find('.improvedKeyword').val();
-                    var judge = $(that).next().find(".improvedJudge").find("option:selected").val();
+                    var key = $(that).next().find('.improved-keyword').val();
+                    var judge = $(that).next().find(".improved-judge").find("option:selected").val();
 
                     // 用来缓存设置的关键词，因为popover一旦消失，这个元素就被删除了，所有数据都没了
                     tempKeywordList[i] = {
@@ -256,11 +181,14 @@ var improvedFilter = function(tableId) {
                 });
 
                 //给文字筛选的清除按钮绑定事件，其实就是用空关键词重新搜索一下啦。
-                $(this).next().find(".improvedTextClear").on("click", function(event) {
+                $(this).next().find(".improved-text-clear").on("click", function(event) {
                     event.preventDefault();
                     event.stopPropagation();
 
-                    tempKeywordList[i] = {};
+                    tempKeywordList[i] = {
+                        key: '',
+                        judge: 'equal'
+                    };
 
                     table.column(i).search('').draw();
 
@@ -272,13 +200,13 @@ var improvedFilter = function(tableId) {
 
                 //给数值筛选的提交按钮绑定事件，其实就是执行一次没有关键词的搜索啦。
                 //因为下面那个函数是每次搜索之后自动执行的。
-                $(this).next().find(".improvedNumSearch").on("click", function(event) {
+                $(this).next().find(".improved-num-search").on("click", function(event) {
                     event.preventDefault();
                     event.stopPropagation();
 
                     tempKeywordList[i] = {
-                        min: parseFloat($('.improvedMin').val()),
-                        max: parseFloat($('.improvedMax').val()),
+                        min: parseFloat($('.improved-min').val()),
+                        max: parseFloat($('.improved-max').val()),
                     };
 
                     table.column(i).search('').draw();
@@ -289,7 +217,7 @@ var improvedFilter = function(tableId) {
                 });
 
                 //给数值筛选的清除按钮绑定事件，其实就是用空关键词重新搜索一下啦。
-                $(this).next().find(".improvedNumClear").on("click", function(event) {
+                $(this).next().find(".improved-nuc-nlear").on("click", function(event) {
                     event.preventDefault();
                     event.stopPropagation();
 
@@ -354,5 +282,5 @@ $(function() {
         "search": false,
     })
 
-    improvedFilter('example');
+    improvedFilter(table);
 })
